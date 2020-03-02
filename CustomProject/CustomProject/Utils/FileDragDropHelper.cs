@@ -71,7 +71,7 @@ namespace CustomProject.Utils
             }
             else
             {
-                LogProvider.AddError("FileDragDropTarget object must be of type IFileDragDropTarget");
+                LogProvider.Instance().AddError("FileDragDropTarget object must be of type IFileDragDropTarget");
             }
         }
     }

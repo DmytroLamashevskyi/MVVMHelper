@@ -28,13 +28,13 @@ namespace CustomProject.MVVM.Models
 
         public static void LoadFromFile()
         { 
-            instance = JsonConvert.DeserializeObject<SettingsProvider>(FileManager.ReadFile("Setting.json"));
+            instance = JsonConvert.DeserializeObject<SettingsProvider>(FileManager.Instance().ReadFile("Setting.json"));
         }
 
         public static void SaveToFile()
         {
             string output = JsonConvert.SerializeObject(instance);
-            FileManager.WriteToFile(output, "Setting.json");
+            FileManager.Instance().WriteToFile(output, "Setting.json");
         }
 
     }

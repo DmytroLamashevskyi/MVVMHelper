@@ -7,10 +7,41 @@ using System.Threading.Tasks;
 
 namespace CustomProject.Utils
 {
-    public static class FileManager
-    { 
+    public class FileManager
+    {
 
-        public static void WriteToFile(string message, string path)
+        private static FileManager instance;
+
+        public static FileManager Instance()
+        {
+            if (instance == null)
+            {
+                instance = new FileManager();
+                LogProvider.Instance().AddLog("Init File Manager.");
+                InitFolders();
+            }
+            lock (instance)
+            {
+                return instance;
+            }
+        }
+
+        private static void InitFolders()
+        {
+            List<String> DirectorysPath = new List<string>()
+            {
+
+            }; 
+
+            foreach(string dir in DirectorysPath)
+            {
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+            }
+
+        }
+
+        public void WriteToFile(string message, string path)
         {
             using (StreamWriter writetext = new StreamWriter(path))
             {
@@ -18,22 +49,22 @@ namespace CustomProject.Utils
             }
         }
 
-        public static void WriteToFile(List<string> messages, string path)
+        public void WriteToFile(List<string> messages, string path)
         {
             using (StreamWriter writetext = new StreamWriter(path))
             {
-                foreach(string message in messages)
+                foreach (string message in messages)
                 {
                     writetext.WriteLine(message);
                 }
             }
         }
 
-        public static List<string> ReadFromFile(string path)
+        public List<string> ReadFromFile(string path)
         {
             if (!File.Exists(path))
             {
-                LogProvider.AddError($"File {path} not exist.");
+                LogProvider.Instance().AddError($"File {path} not exist.");
                 return new List<string>();
             }
             List<string> messages = new List<string>();
@@ -42,17 +73,17 @@ namespace CustomProject.Utils
                 string line;
                 while ((line = readtext.ReadLine()) != null)
                 {
-                    messages.Add(line);  
+                    messages.Add(line);
                 }
             }
-            return messages; 
-        } 
+            return messages;
+        }
 
-        public static string ReadFile(string path)
+        public string ReadFile(string path)
         {
             if (!File.Exists(path))
             {
-                LogProvider.AddError($"File {path} not exist.");
+                LogProvider.Instance().AddError($"File {path} not exist.");
                 return String.Empty;
             }
             var message = File.ReadAllText(path);

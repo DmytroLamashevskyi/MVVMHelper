@@ -39,7 +39,7 @@ namespace CustomProject.MVVM.ViewModels
         {
             Logs = new ObservableCollection<TextBlock>();
 
-            LogProvider.AddLogHandler += new LogProvider.LogHandler(AddLog);
+            LogProvider.Instance().AddLogHandler += new LogProvider.LogHandler(AddLog);
             ClearAllLogsCommand = new SimpleCommand(ClearAllLogs);
             ClearErrorsLogsCommand = new SimpleCommand(ClearErrorsLogs);
             ClearDebugLogsCommand = new SimpleCommand(ClearDebugLogs);
@@ -84,7 +84,7 @@ namespace CustomProject.MVVM.ViewModels
 
         private void SaveAllLogs()
         {
-            LogProvider.SaveLogs();
+            LogProvider.Instance().SaveLogs();
             Notify("Logs");
         }
 

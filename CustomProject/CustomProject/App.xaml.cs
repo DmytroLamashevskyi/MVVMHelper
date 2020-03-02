@@ -13,12 +13,27 @@ namespace CustomProject
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-    {
+    { 
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+
+        }
+
         protected override void OnExit(ExitEventArgs e)
         {
             SimpleCompiler.CloseAllProcesses();
-            LogProvider.SaveLogs();
             base.OnExit(e);
         }
+
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            LogProvider.Instance().AddError("Unhandled exception occurred: \n" + e.Exception.Message);
+            LogProvider.Instance().SaveLogs("Critical Error.txt");
+        }
+
+
     }
 }

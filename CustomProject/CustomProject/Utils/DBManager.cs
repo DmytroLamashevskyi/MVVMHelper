@@ -4,26 +4,28 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Data.Common;
 
 namespace CustomProject.Utils
 {
-    public static class DBManager
-    {
-        private static string connectionString = "server=localhost;user=root;database=world;port=3306;password=******";
+    //https://www.tektutorialshub.com/entity-framework/ef-code-first-example/
 
-        private static void CreateCommand(string queryString)
+    public class DBManager : DbContext
+    {
+        public DBManager() : base("MyContext")
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        LogProvider.AddLog($"{reader.GetInt32(0)} {reader.GetString(1)} {reader.GetString(2)}");
-                    }
-                }
-            }
+
         }
+
+        // Constructor to use on a DbConnection that is already opened
+        public DBManager(DbConnection existingConnection, bool contextOwnsConnection)
+          : base(existingConnection, contextOwnsConnection)
+        {
+
+        }
+
+
+
     }
 }

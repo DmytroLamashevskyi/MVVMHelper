@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <Views:LogView  Grid.Column="0" />
-        <Views:MainView  Grid.Column="1" />
+        <Views:DragAndDropView  Grid.Column="1" />
 
     </Grid>
 </Window>

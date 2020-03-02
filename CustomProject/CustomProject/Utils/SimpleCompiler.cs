@@ -32,7 +32,7 @@ namespace CustomProject.Utils
 
                 foreach (CompilerError CompErr in results.Errors)
                 {
-                    LogProvider.AddError(
+                    LogProvider.Instance().AddError(
                                 "Line number " + CompErr.Line +
                                 ", Error Number: " + CompErr.ErrorNumber +
                                 ", '" + CompErr.ErrorText + ";" );
@@ -42,7 +42,7 @@ namespace CustomProject.Utils
             {
                 //Successful Compile
 
-                LogProvider.AddLog("Success!");
+                LogProvider.Instance().AddLog("Success!");
                 //If we clicked run then launch our EXE
                 processes.Add(Process.Start(Output)); 
             }
